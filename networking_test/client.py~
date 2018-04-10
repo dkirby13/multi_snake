@@ -23,7 +23,7 @@ class Player:
     y = [0]
     xstep = 52
     ystep = 50
-    direction = 1
+    direction = 0
     length = 3
     moved = False
     speed = 1
@@ -208,8 +208,13 @@ class App:
                     self._running = False
             
             self.s.send(str(self.player.direction).encode())
-            while self.s.recv(2048).decode() != "ack":
+            a = self.s.recv(2048).decode()
+            while a != "ack" and a != "done":
                 print("waiting for ack")
+                a = self.s.recv(2048).decode()
+            
+            if a == "done":
+                self._running = False
             print("ack received")
             
 #            self.on_loop()
