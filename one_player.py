@@ -121,8 +121,8 @@ class App:
  
         pygame.display.set_caption('Pygame pythonspot.com example')
         self._running = True
-        self._image_surf = pygame.image.load("block.jpg").convert()
-        self._apple_surf = pygame.image.load("apple.jpg").convert()
+        self._image_surf = pygame.image.load("block.bmp").convert()
+        self._apple_surf = pygame.image.load("apple.bmp").convert()
  
     def on_event(self, event):
         if event.type == QUIT:
