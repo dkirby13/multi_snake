@@ -31,15 +31,22 @@ class Player:
     updateCountMax = 2
     updateCount = 0
  
-    def __init__(self, length):
+    def __init__(self, length, player):
        self.length = length
        for i in range(0,2000):
            self.x.append(-100)
            self.y.append(-100)
  
        # initial positions, no collision.
-       self.x[1] = 1*52
-       self.x[2] = 2*52
+       if player == 1 :
+           self.x[1] = 1*52
+           self.x[2] = 2*52
+        
+       if player == 2 :
+           self.x[0] = 11*52
+           self.x[1] = 12*52
+           self.x[2] = 13*52
+           self.direction = 1
  
     def update(self):
         
@@ -104,7 +111,8 @@ class App:
  
     windowWidth = 1404
     windowHeight = 600
-    player = 0
+    player1 = 0
+    player2 = 0
     apple = 0
     IP = '169.231.100.251'
     PORT = 12345
@@ -116,7 +124,8 @@ class App:
         self._image_surf = None
         self._apple_surf = None
         self.game = Game()
-        self.player = Player(3) 
+        self.player1 = Player(3, 1) 
+        self.player2 = Player(3, 2) 
         self.apple = Apple(5,5)
  
     def on_init(self):
@@ -132,36 +141,36 @@ class App:
         if event.type == QUIT:
             self._running = False
  
-    def on_loop(self):
-        self.player.update()
+    def on_loop(self, player):
+        player.update()
  
         # does snake eat apple?
-        for i in range(0,self.player.length):
-            if self.game.isCollision(self.apple.x,self.apple.y,self.player.x[i], self.player.y[i],44):
+        for i in range(0,player.length):
+            if self.game.isCollision(self.apple.x,self.apple.y,player.x[i], player.y[i],44):
                 self.apple.x = randint(2,26) * 52
                 self.apple.y = randint(2,10) * 50
-                self.player.length = self.player.length + 1
+                player.length = player.length + 1
  
  
         # does snake collide with itself?
-        for i in range(2,self.player.length):
-            if self.game.isCollision(self.player.x[0],self.player.y[0],self.player.x[i], self.player.y[i],40):
+        for i in range(2,player.length):
+            if self.game.isCollision(player.x[0],player.y[0],player.x[i], player.y[i],40):
                 print("You lose!")
                 exit(0)
 
-        if self.player.x[0] < 0:
+        if player.x[0] < 0:
             print("You lose!")
             exit(0)
 
-        if self.player.x[0] + 52 > self.windowWidth:
+        if player.x[0] + 52 > self.windowWidth:
             print("You lose!")
             exit(0)
 
-        if self.player.y[0] + 50 > self.windowHeight:
+        if player.y[0] + 50 > self.windowHeight:
             print("You lose!")
             exit(0)
 
-        if self.player.y[0] < 0:
+        if player.y[0] < 0:
             print("You lose!")
             exit(0)
         
@@ -171,7 +180,8 @@ class App:
  
     def on_render(self):
         self._display_surf.fill((0,0,0))
-        self.player.draw(self._display_surf, self._image_surf)
+        self.player1.draw(self._display_surf, self._image_surf)
+        self.player2.draw(self._display_surf, self._image_surf)
         self.apple.draw(self._display_surf, self._apple_surf)
         pygame.display.flip()
  
@@ -200,27 +210,27 @@ class App:
             dir = dir.decode()
             print(dir)
             c.send("ack".encode())
-            self.player.direction = int(dir)
+            self.player2.direction = int(dir)
             print("F")
             #dir = int(dir, 2)
             #print(dir)
             #dir = int(dir)
             #c.close()
             print("G")
-            '''pygame.event.pump()
+            pygame.event.pump()
             keys = pygame.key.get_pressed() 
  
             if (keys[K_RIGHT]):
-                self.player.moveRight()
+                self.player1.moveRight()
  
             if (keys[K_LEFT]):
-                self.player.moveLeft()
+                self.player1.moveLeft()
  
             if (keys[K_UP]):
-                self.player.moveUp()
+                self.player1.moveUp()
  
             if (keys[K_DOWN]):
-                self.player.moveDown()
+                self.player1.moveDown()
  
             if (keys[K_ESCAPE]):
                 self._running = False
@@ -229,12 +239,13 @@ class App:
             if event:
                 if event[0].type == pygame.QUIT:
                     self._running = False
-            '''
-            self.on_loop()
+            
+            self.on_loop(self.player1)
+            self.on_loop(self.player2)
             self.on_render()
             print("H")
  
-            #time.sleep (5.0 / 1000.0 * self.player.speed);
+            time.sleep (500.0 / 1000.0);
         self.on_cleanup()
         c.close()
  
