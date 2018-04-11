@@ -150,7 +150,7 @@ class App:
         self.players = [Player(3, 1), Player(3, 2)] 
         self.apple = Apple(5,5)
         self.player_num = num
-        if host == 0:
+        if int(host) == 0:
             self.host = False
  
     def on_init(self):
@@ -264,19 +264,19 @@ class App:
                 self.players[1].moveDown()
  
             if (keys[K_RIGHT]):
-                self.players[0].moveRight()
+                self.players[self.player_num].moveRight()
  
             if (keys[K_LEFT]):
-                self.players[0].moveLeft()
+                self.players[self.player_num].moveLeft()
  
             if (keys[K_UP]):
-                self.players[0].moveUp()
+                self.players[self.player_num].moveUp()
  
             if (keys[K_DOWN]):
-                self.players[0].moveDown()
+                self.players[self.player_num].moveDown()
 
             if not self.host:
-                s.send(str(self.players[player_num].direction).encode())
+                s.send(str(self.players[self.player_num].direction).encode())
                 a = s.recv(2048).decode()
                 while a != "ack":
                     a = s.recv(2048).decode()
