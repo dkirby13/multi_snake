@@ -4,6 +4,7 @@ import pygame
 import time
 import socket
 import sys
+import errno
  
 class Apple:
     x = 0
@@ -249,8 +250,8 @@ class App:
                 try:
                     connected = True
                     s.connect((self.IP, self.PORT))
-                except socket.error, v:
-                    print "waiting for server"
+                except socket.error as v:
+                    print("waiting for server")
                     connected = False
         while( self._running ):
             pygame.event.pump()
