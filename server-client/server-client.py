@@ -289,6 +289,7 @@ class App:
                 s.send(str(self.players[self.player_num].direction).encode())
                 a = s.recv(2048).decode()
                 while a != "ack":
+                    print(a)
                     a = s.recv(2048).decode()
 
                 dir = s.recv(10)
@@ -306,6 +307,7 @@ class App:
                 c.send(str(self.players[self.player_num].direction).encode())
                 a = c.recv(2048).decode()
                 while a != "ack":
+                    print(a)
                     a = c.recv(2048).decode()
  
             if (keys[K_ESCAPE]):
