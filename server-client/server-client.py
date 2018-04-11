@@ -288,25 +288,25 @@ class App:
             if not self.host:
                 s.send(str(self.players[self.player_num].direction).encode())
                 a = s.recv(2048).decode()
-                #while a != "ack":
-                #a = s.recv(2048).decode()
+                while a != "ack":
+                    a = s.recv(2048).decode()
 
                 dir = s.recv(10)
                 dir = dir.decode()
-                #s.send("ack".encode())
+                s.send("ack".encode())
                 self.players[0].direction = int(dir)
                 
 
             if self.host:
                 dir = c.recv(10)
                 dir = dir.decode()
-                #c.send("ack".encode())
+                c.send("ack".encode())
                 self.players[1].direction = int(dir)
             
                 c.send(str(self.players[self.player_num].direction).encode())
-                #a = c.recv(2048).decode()
-                #while a != "ack":
-                 #   a = c.recv(2048).decode()
+                a = c.recv(2048).decode()
+                while a != "ack":
+                    a = c.recv(2048).decode()
  
             if (keys[K_ESCAPE]):
                 self._running = False
