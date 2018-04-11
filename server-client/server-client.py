@@ -149,7 +149,7 @@ class App:
         self.game = Game()
         self.players = [Player(3, 1), Player(3, 2)] 
         self.apple = Apple(5,5)
-        self.player_num = num
+        self.player_num = int(num)
         if int(host) == 0:
             self.host = False
  
