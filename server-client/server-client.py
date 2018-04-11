@@ -138,11 +138,12 @@ class App:
     player_num = 0 
     apple = 0
     local = False
-    IP = '169.231.100.251'
+    IP = '184.189.216.4'
     PORT = 12345
     host = True
  
     def __init__(self, num, host):
+        print(self.IP)
         self._running = True
         self._display_surf = None
         self._image_surf = None
@@ -245,14 +246,14 @@ class App:
 
         if not self.host:
             s = socket.socket()
-            connected = False
-            while not connected: 
-                try:
-                    connected = True
-                    s.connect((self.IP, self.PORT))
-                except socket.error as v:
-                    print("waiting for server")
-                    connected = False
+            #connected = False
+            #while not connected: 
+            #    try:
+            #        connected = True
+            s.connect((self.IP, self.PORT))
+           #     except socket.error as v:
+           #         print("waiting for server")
+           #         connected = False
         while( self._running ):
             pygame.event.pump()
             keys = pygame.key.get_pressed()
@@ -285,20 +286,20 @@ class App:
 
             if not self.host:
                 s.send(str(self.players[self.player_num].direction).encode())
-                a = s.recv(2048).decode()
-                while a != "ack":
-                    a = s.recv(2048).decode()
+                #a = s.recv(2048).decode()
+                #while a != "ack":
+                #    a = s.recv(2048).decode()
 
                 dir = s.recv(10)
                 dir = dir.decode()
-                s.send("ack".encode())
+                #s.send("ack".encode())
                 self.players[0].direction = int(dir)
                 
 
             if self.host:
                 dir = c.recv(10)
                 dir = dir.decode()
-                c.send("ack".encode())
+                #c.send("ack".encode())
                 self.players[1].direction = int(dir)
             
                 c.send(str(self.players[self.player_num].direction).encode())
