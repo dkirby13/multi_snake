@@ -293,7 +293,7 @@ class App:
                 c.send("ack".encode())
                 self.players[1].direction = int(dir)
             
-                c.send(str(self.players[self.player_num]).direction.encode())
+                c.send(str(self.players[self.player_num].direction).encode())
                 a = c.recv(2048).decode()
                 while a != "ack":
                     a = c.recv(2048).decode()
