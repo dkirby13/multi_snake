@@ -245,14 +245,15 @@ class App:
 
         if not self.host:
             s = socket.socket()
-            connected = False
-            while not connected: 
-                try:
-                    connected = True
-                    s.connect((self.IP, self.PORT))
-                except socket.error as v:
-                    print("waiting for server")
-                    connected = False
+            s.connect((self.IP, self.PORT))
+            #connected = False
+            #while not connected: 
+             #   try:
+              #      connected = True
+               #     s.connect((self.IP, self.PORT))
+                #except socket.error as v:
+                    #print("waiting for server")
+                    #connected = False
         while( self._running ):
             pygame.event.pump()
             keys = pygame.key.get_pressed()
