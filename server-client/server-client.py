@@ -143,6 +143,7 @@ class App:
     host = True
  
     def __init__(self, num, host):
+        print(self.IP)
         self._running = True
         self._display_surf = None
         self._image_surf = None
