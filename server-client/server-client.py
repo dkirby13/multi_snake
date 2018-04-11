@@ -138,7 +138,7 @@ class App:
     player_num = 0 
     apple = 0
     local = False
-    IP = '184.189.216.4'
+    IP = socket.gethostbyname(socket.gethostname())
     PORT = 12345
     host = True
  
