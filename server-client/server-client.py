@@ -244,7 +244,14 @@ class App:
 
         if not self.host:
             s = socket.socket()
-            s.connect((self.IP, self.PORT))
+            connected = False
+            while not connected: 
+                try:
+                    connected = True
+                    s.connect((self.IP, self.PORT))
+                except socket.error, v:
+                    print "waiting for server"
+                    connected = False
         while( self._running ):
             pygame.event.pump()
             keys = pygame.key.get_pressed()
@@ -312,9 +319,12 @@ class App:
  
             time.sleep (5.0 / 1000.0 )
         self.on_cleanup()
-        if host:
+        if self.host:
             c.send("done".encode())
             c.close()
+            s.close()
+        if not self.host:
+            s.close()
 if __name__ == "__main__" :
     theApp = App(sys.argv[1], sys.argv[2])
     theApp.on_execute()
